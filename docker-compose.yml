@@ -1,0 +1,27 @@
+version: "3.7"
+services:
+  mysql:
+    environment:
+      MYSQL_ROOT_PASSWORD: 'P@s$w0'
+      MYSQL_USER: 'admin_db'
+      MYSQL_PASSWORD: 'P@s$tdB1'
+      MYSQL_DATABASE: 'test_db'
+    container_name: mysql
+    image: mysql:8.0
+    restart: always
+    volumes:
+      - mysql_volume:/var/lib/mysql
+    ports:
+      - '3307:3306'
+    expose:
+      - '3307'
+  nginx:
+    image: nginx:latest
+    ports: 
+      - "81:80"
+    restart: always
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./index.html:/usr/share/nginx/html/index.html
+volumes:
+  mysql_volume:
