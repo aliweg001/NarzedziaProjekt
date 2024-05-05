@@ -1,6 +1,7 @@
 import argparse
 import logging
 import requests
+import unittest
 
 logging.basicConfig(level=logging.INFO)
 
@@ -31,3 +32,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
