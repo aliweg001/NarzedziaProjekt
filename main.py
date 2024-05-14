@@ -1,26 +1,36 @@
-import argparse #importujemy biblioteki obslugujace przekazywanie argumentow z linii komend
-import logging #bibliotegka do logowania bledow
-import requests #importujemy biblioteke do obslugi polecen restowych
+import argparse
+import logging
+import requests
+import mysql.connector
 
 logging.basicConfig(level=logging.INFO)
 
-def get_exchange_rate(currency_code): #pobieramy stosunek wymiany w zaleznosci od waluty
+def get_exchange_rate(currency_code):
     try:
         url = f'http://api.nbp.pl/api/exchangerates/rates/a/{currency_code.lower()}/'
         response = requests.get(url)
         response.raise_for_status()
-       # print (response.json())
     except requests.exceptions.RequestException as e:
         logging.error(f'Problem z wymiana walut: {e}')
         raise
     return response.json()['rates'][0]['mid']
 
 
-def exchange_currency(input_value, currency_code): #funkcja do wymiany waluty podajemy ilosc do wymiany i kod waluty
-    exchange_rate = get_exchange_rate(currency_code) #przelicznik wymiany
+def exchange_currency(input_value, currency_code):
+    exchange_rate = get_exchange_rate(currency_code)
     return round(input_value * exchange_rate,2)
 
-
+def log_info_to_mysql(Kurs, Waluta, IloscWymiany, CalkowitaKwota):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="admin_db",
+        passwd="P@s$tdB1",
+        database="test_db"
+    )
+    mycursor = mydb.cursor()
+    sql = "INSERT INTO KursWalut (Kurs, NazwaWaluty, IloscWymiany, CalkowitaKwota) VALUES ("+str(Kurs)+",'"+Waluta+"'"+","+str(IloscWymiany)+","+str(CalkowitaKwota)+");"
+    mycursor.execute(sql)
+    mydb.commit()
 def main():
     parser = argparse.ArgumentParser(description='Kurs walut.')
     parser.add_argument('--currency', required=True, help='Kod wymiany(EUR, GBP, USD, ...)')
@@ -29,6 +39,7 @@ def main():
 
     result = exchange_currency(args.amount,args.currency)
     print(f'{args.amount} {args.currency} ma wartosc {result} PLN')
+    log_info_to_mysql(result/args.amount,args.currency,args.amount,result)  
 
 if __name__ == "__main__":
     main()

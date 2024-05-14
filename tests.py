@@ -6,13 +6,13 @@ class ExchangeTest(unittest.TestCase):
     def setUp(self): #ustalnenie wartosci do testowania
         self.a = 10
         self.b = "USD"
-    def test_exchange_rate(self): #testujemy funkcje exchange_rate
+    def test_exchange_rate(self): #testujemy funkcje exchange_rate 
         print("Test 1")
         #Act
         result = get_exchange_rate(self.b)  #pobieranie kursu dolara 
         
         #Assert
-        self.assertLess(result,self.a/self.a)  #sprawdzenie czy kurs dolara jest wiekszy niz jeden
+        self.assertGreater(result,self.a/self.a)  #sprawdzenie czy kurs dolara jest wiekszy niz jeden
 
     def test_exchange_currency(self): #testujemy funkcje wymaine walut
         print("Test 2")
@@ -22,7 +22,13 @@ class ExchangeTest(unittest.TestCase):
         #Assert
         self.assertEqual(result,round(exchange_rate * self.a,2)) #sprawdzamy czy wartosci sa takie same przy wykorzystaniu funkcji exchange_currency i bez niej
 
-
+    def test_exchange_rate_2(self): 
+        print("Test 3")
+        #Act
+        result = get_exchange_rate(self.b)  
+        
+        #Assert
+        self.assertLess(self.a/self.a, result)
 
 
 
