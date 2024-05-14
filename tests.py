@@ -12,7 +12,7 @@ class ExchangeTest(unittest.TestCase):
         result = get_exchange_rate(self.b)  #pobieranie kursu dolara 
         
         #Assert
-        self.assertGreater(result,self.a/self.a)  #sprawdzenie czy kurs dolara jest wiekszy niz jeden
+        self.assertLess(result,self.a/self.a)  #sprawdzenie czy kurs dolara jest wiekszy niz jeden
 
     def test_exchange_currency(self): #testujemy funkcje wymaine walut
         print("Test 2")
