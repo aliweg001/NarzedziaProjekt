@@ -28,7 +28,7 @@ class ExchangeTest(unittest.TestCase):
         result = get_exchange_rate(self.b)  
         
         #Assert
-        self.assertLess(self.a/self.a, result)
+        self.assertLess(result, self.a/self.a, )
 
 
 
