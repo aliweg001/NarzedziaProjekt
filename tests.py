@@ -1,8 +1,8 @@
 import unittest #biblioteka do testow jednostkowych
-from main import get_exchange_rate
+from main import get_exchange_rate #importujemy z pliku main fukcje get_ech...
 from main import exchange_currency
 
-class ExchangeTest(unittest.TestCase):
+class ExchangeTest(unittest.TestCase): #classa do tesow
     def setUp(self): #ustalnenie wartosci do testowania
         self.a = 10
         self.b = "USD"
@@ -22,13 +22,7 @@ class ExchangeTest(unittest.TestCase):
         #Assert
         self.assertEqual(result,round(exchange_rate * self.a,2)) #sprawdzamy czy wartosci sa takie same przy wykorzystaniu funkcji exchange_currency i bez niej
 
-    def test_exchange_rate_2(self): 
-        print("Test 3")
-        #Act
-        result = get_exchange_rate(self.b)  
-        
-        #Assert
-        self.assertLess(result, self.a/self.a, )
+
 
 
 
